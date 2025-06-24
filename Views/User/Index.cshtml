@@ -1,14 +1,32 @@
 @model IEnumerable<MyMvcApp.Models.User>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Contacts";
 }
 
-<h2>Index</h2>
+<h2>Contacts</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create", "User")
 </p>
+
+<div class="row mb-3">
+    <div class="col-md-6">
+        @using (Html.BeginForm("Index", "User", FormMethod.Get))
+        {
+            <div class="input-group">
+                <label class="input-group-text" for="searchName">Find by name:</label>
+                @Html.TextBox("searchName", ViewData["CurrentFilter"] as string, new { @class = "form-control" })
+                <button type="submit" class="btn btn-primary">Search</button>
+                @if (!string.IsNullOrEmpty(ViewData["CurrentFilter"] as string))
+                {
+                    <a href="@Url.Action("Index")" class="btn btn-secondary">Clear</a>
+                }
+            </div>
+        }
+    </div>
+</div>
+
 <table class="table">
     <tr>
         <th>

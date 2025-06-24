@@ -9,9 +9,15 @@ public class UserController : Controller
     public static System.Collections.Generic.List<User> userlist = new System.Collections.Generic.List<User>();
 
     // GET: User
-    public ActionResult Index()
+    public ActionResult Index(string searchName)
     {
-        return View(userlist);
+        var users = userlist;
+        if (!string.IsNullOrEmpty(searchName))
+        {
+            users = userlist.Where(u => u.Name.Contains(searchName, StringComparison.OrdinalIgnoreCase)).ToList();
+        }
+        ViewData["CurrentFilter"] = searchName;
+        return View(users);
     }
 
     // GET: User/Details/5
